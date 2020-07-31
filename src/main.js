@@ -311,45 +311,32 @@ const addEditTaskCard = () => {
                 class="card__color card__color--green"
                 >green</label
               >
-              <input
-                type="radio"
-                id="color-pink-4"
-                class="card__color-input card__color-input--pink visually-hidden"
-                name="color"
-                value="pink"
-              />
-              <label
-                for="color-pink-4"
-                class="card__color card__color--pink"
-                >pink</label
-              >
+                <input
+                  type="radio"
+                  id="color-pink-4"
+                  class="card__color-input card__color-input--pink visually-hidden"
+                  name="color"
+                  value="pink"
+                />
+                <label for="color-pink-4" class="card__color card__color--pink">pink</label>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="card__status-btns">
-          <button class="card__save" type="submit">save</button>
-          <button class="card__delete" type="button">delete</button>
+          <div class="card__status-btns">
+            <button class="card__save" type="submit">save</button>
+            <button class="card__delete" type="button">delete</button>
+          </div>
         </div>
-      </div>
-    </form>
-  </article>`
+      </form>
+    </article>`
   );
 };
 
 const addRepeatDay = () => {
   return (
-                  `<input
-                    class="visually-hidden card__repeat-day-input"
-                    type="checkbox"
-                    id="repeat-mo-" 
-                    name="repeat"
-                    value=` + REPEAT_DAY_VALUE[0] +`
-                  />
-                  <label class="card__repeat-day" for="repeat-mo-4"
-                    >` + REPEAT_DAY_VALUE[0] +`</label
-                  >
-                  `
+    `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-mo-" name="repeat" value=` + REPEAT_DAY_VALUE[0] +`/>
+    <label class="card__repeat-day" for="repeat-mo-4">` + REPEAT_DAY_VALUE[0] +`</label>`
   )
 };
 
@@ -361,7 +348,7 @@ const addLoadingBtn = (textBtn) => {
 };
 
 const render = (container, template, place) => {
-    container.insertAdjacentHTML(place, template);
+  container.insertAdjacentHTML(place, template);
 };
 
 const mainContainer = document.querySelector(`.main`);
