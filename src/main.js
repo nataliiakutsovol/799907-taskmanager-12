@@ -1,112 +1,68 @@
 
 const TASK_COUNT = 3;
 
-const CARD_REPEAT_DAY = 7;
-
-const REPEAT_DAY_VALUE = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`]
+const REPEAT_DAY_VALUE = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
 const addMenuContainer = () => {
-    return (
-        `<section class="control__btn-wrap">
-        <input
-          type="radio"
-          name="control"
-          id="control__new-task"
-          class="control__input visually-hidden"
-        />
-        <label for="control__new-task" class="control__label control__label--new-task"
-          >+ ADD NEW TASK</label
-        >
-        <input
-          type="radio"
-          name="control"
-          id="control__task"
-          class="control__input visually-hidden"
-          checked
-        />
-        <label for="control__task" class="control__label">TASKS</label>
-        <input
-          type="radio"
-          name="control"
-          id="control__statistic"
-          class="control__input visually-hidden"
-        />
-        <label for="control__statistic" class="control__label"
-          >STATISTICS</label
-        >
-      </section>`
-    );
+  return (
+    `<section class="control__btn-wrap">
+      <input
+        type="radio"
+        name="control"
+        id="control__new-task"
+        class="control__input visually-hidden"
+      />
+      <label for="control__new-task" class="control__label control__label--new-task"
+        >+ ADD NEW TASK</label
+      >
+      <input
+        type="radio"
+        name="control"
+        id="control__task"
+        class="control__input visually-hidden"
+        checked
+      />
+      <label for="control__task" class="control__label">TASKS</label>
+      <input
+        type="radio"
+        name="control"
+        id="control__statistic"
+        class="control__input visually-hidden"
+      />
+      <label for="control__statistic" class="control__label">STATISTICS</label>
+    </section>`
+  );
 };
- 
+
 const addFilers = () => {
-    return (
-        `<section class="main__filter filter container">
-        <input
-          type="radio"
-          id="filter__all"
-          class="filter__input visually-hidden"
-          name="filter"
-          checked
-        />
-        <label for="filter__all" class="filter__label">
-          All <span class="filter__all-count">13</span></label
-        >
-        <input
-          type="radio"
-          id="filter__overdue"
-          class="filter__input visually-hidden"
-          name="filter"
-          disabled
-        />
-        <label for="filter__overdue" class="filter__label"
-          >Overdue <span class="filter__overdue-count">0</span></label
-        >
-        <input
-          type="radio"
-          id="filter__today"
-          class="filter__input visually-hidden"
-          name="filter"
-          disabled
-        />
-        <label for="filter__today" class="filter__label"
-          >Today <span class="filter__today-count">0</span></label
-        >
-        <input
-          type="radio"
-          id="filter__favorites"
-          class="filter__input visually-hidden"
-          name="filter"
-        />
-        <label for="filter__favorites" class="filter__label"
-          >Favorites <span class="filter__favorites-count">1</span></label
-        >
-        <input
-          type="radio"
-          id="filter__repeating"
-          class="filter__input visually-hidden"
-          name="filter"
-        />
-        <label for="filter__repeating" class="filter__label"
-          >Repeating <span class="filter__repeating-count">1</span></label
-        >
-        <input
-          type="radio"
-          id="filter__archive"
-          class="filter__input visually-hidden"
-          name="filter"
-        />
-        <label for="filter__archive" class="filter__label"
-          >Archive <span class="filter__archive-count">115</span></label
-        >
-      </section>`
-    );
+  return (
+    `<section class="main__filter filter container"></section>`
+  );
+};
+
+const filterObj = {
+  id: [`filter__all`, `filter__overdue`, `filter__today`, `filter__favorites`, `filter__repeating`, `filter__archive`],
+  text: [`All`, `Overdue`, `Today`, `Favorites`, `Repeating`, `Archive`],
+  class: [`filter__all-count`, `filter__overdue-count`, `filter__today-count`, `filter__favorites-count`, `filter__repeating-count`, `filter__archive-count`]
+};
+
+const filterItem = (i) => {
+  return (
+    `<input
+      type="radio"
+      id="${filterObj.id[i]}"
+      class="filter__input visually-hidden"
+      name="filter"
+      checked/>
+    <label for="${filterObj.id[i]}" class="filter__label">${filterObj.text[i]}<span class="${filterObj.class[i]}"> 13</span></label>`
+  );
 };
 
 const addSorting = () => {
-    return (
-        `<section class="board container">
-          <div class="board__filter-list">
-          <a href="#" class="board__filter">SORT BY DEFAULT</a>
+  return (
+    `<section class="board container">
+      <div class="board__filter-list">
+        <a href="#" class="board__filter">SORT BY DEFAULT</a>
         <a href="#" class="board__filter">SORT BY DATE up</a>
         <a href="#" class="board__filter">SORT BY DATE down</a>
       </div>
@@ -116,94 +72,94 @@ const addSorting = () => {
 };
 
 const addTaskCard = () => {
-    return (
-      `<article class="card card--black">
-        <div class="card__form">
-          <div class="card__inner">
-            <div class="card__control">
-              <button type="button" class="card__btn card__btn--edit">
-                edit
-              </button>
-              <button type="button" class="card__btn card__btn--archive">
-                archive
-              </button>
-              <button
-                type="button"
-                class="card__btn card__btn--favorites"
-              >
-                favorites
-              </button>
-            </div>
-            <div class="card__color-bar">
-              <svg class="card__color-bar-wave" width="100%" height="10">
-                <use xlink:href="#wave"></use>
-              </svg>
-            </div>
-            <div class="card__textarea-wrap">
-              <p class="card__text">Example default task with default color.</p>
-            </div>
-            <div class="card__settings">
-              <div class="card__details">
-                <div class="card__dates">
-                  <div class="card__date-deadline">
-                    <p class="card__input-deadline-wrap">
-                      <span class="card__date">23 September</span>
-                    </p>
-                  </div>
+  return (
+    `<article class="card card--black">
+      <div class="card__form">
+        <div class="card__inner">
+          <div class="card__control">
+            <button type="button" class="card__btn card__btn--edit">
+              edit
+            </button>
+            <button type="button" class="card__btn card__btn--archive">
+              archive
+            </button>
+            <button
+              type="button"
+              class="card__btn card__btn--favorites"
+            >
+              favorites
+            </button>
+          </div>
+          <div class="card__color-bar">
+            <svg class="card__color-bar-wave" width="100%" height="10">
+              <use xlink:href="#wave"></use>
+            </svg>
+          </div>
+          <div class="card__textarea-wrap">
+            <p class="card__text">Example default task with default color.</p>
+          </div>
+          <div class="card__settings">
+            <div class="card__details">
+              <div class="card__dates">
+                <div class="card__date-deadline">
+                  <p class="card__input-deadline-wrap">
+                    <span class="card__date">23 September</span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </article>`
-    );
+      </div>
+    </article>`
+  );
 };
 
 const addDeadlineTaskCard = () => {
   return (
     `<article class="card card--black card--deadline">
-    <div class="card__form">
-      <div class="card__inner">
-        <div class="card__control">
-          <button type="button" class="card__btn card__btn--edit">
-            edit
-          </button>
-          <button type="button" class="card__btn card__btn--archive">
-            archive
-          </button>
-          <button
-            type="button"
-            class="card__btn card__btn--favorites card__btn--disabled"
-          >
-            favorites
-          </button>
-        </div>
+      <div class="card__form">
+        <div class="card__inner">
+          <div class="card__control">
+            <button type="button" class="card__btn card__btn--edit">
+              edit
+            </button>
+            <button type="button" class="card__btn card__btn--archive">
+              archive
+            </button>
+            <button
+              type="button"
+              class="card__btn card__btn--favorites card__btn--disabled"
+            >
+              favorites
+            </button>
+          </div>
 
-        <div class="card__color-bar">
-          <svg class="card__color-bar-wave" width="100%" height="10">
-            <use xlink:href="#wave"></use>
-          </svg>
-        </div>
+          <div class="card__color-bar">
+            <svg class="card__color-bar-wave" width="100%" height="10">
+              <use xlink:href="#wave"></use>
+            </svg>
+          </div>
 
-        <div class="card__textarea-wrap">
-          <p class="card__text">This is task with missing deadline. Deadline always marked by red line.</p>
-        </div>
+          <div class="card__textarea-wrap">
+            <p class="card__text">This is task with missing deadline. Deadline always marked by red line.</p>
+          </div>
 
-        <div class="card__settings">
-          <div class="card__details">
-            <div class="card__dates">
-              <div class="card__date-deadline">
-                <p class="card__input-deadline-wrap">
-                  <span class="card__date">23 September</span>
-                  <span class="card__time">16:15</span>
-                </p>
+          <div class="card__settings">
+            <div class="card__details">
+              <div class="card__dates">
+                <div class="card__date-deadline">
+                  <p class="card__input-deadline-wrap">
+                    <span class="card__date">23 September</span>
+                    <span class="card__time">16:15</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </article>`
+    </article>`
   )
 };
 
@@ -333,17 +289,17 @@ const addEditTaskCard = () => {
   );
 };
 
-const addRepeatDay = () => {
+const addRepeatDay = (i) => {
   return (
-    `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-mo-" name="repeat" value=` + REPEAT_DAY_VALUE[0] +`/>
-    <label class="card__repeat-day" for="repeat-mo-4">` + REPEAT_DAY_VALUE[0] +`</label>`
+    `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-mo-" name="repeat" value="${REPEAT_DAY_VALUE[i]}"/>
+    <label class="card__repeat-day" for="repeat-mo-4">${REPEAT_DAY_VALUE[i]}</label>`
   )
 };
 
-const addLoadingBtn = (textBtn) => {
-  textBtn = `load more`;
+const addLoadingBtn = (text) => {
+  text = `load more`;
   return (
-    `<button class="load-more" type="button">`+ textBtn + `</button>`
+    `<button class="load-more" type="button">${text}</button>`
   );
 };
 
@@ -359,6 +315,12 @@ render(headerContainer, addMenuContainer(), `beforeend`);
 
 render(mainContainer, addFilers(), `beforeend`);
 
+const filterItemContainer = mainContainer.querySelector(`.main__filter`);
+
+for(let i = 0; i < filterObj.id.length; i++) {
+  render(filterItemContainer, filterItem(i), `beforeend`);
+};
+
 render(mainContainer, addSorting(), `beforeend`);
 
 const boardMainContainer = mainContainer.querySelector(`.board`);
@@ -366,7 +328,7 @@ const boardMainContainer = mainContainer.querySelector(`.board`);
 const taskListContainer = boardMainContainer.querySelector(`.board__tasks`);
 
 for(let i = 0; i < TASK_COUNT; i++) {
-  render(taskListContainer, addTaskCard(), `beforeend`);
+  render(taskListContainer, addTaskCard(i), `beforeend`);
 };
 
 render(taskListContainer, addDeadlineTaskCard(), `beforeend`);
@@ -377,6 +339,6 @@ render(taskListContainer, addLoadingBtn(), `beforeend`);
 
 const taskEditDays = boardMainContainer.querySelector(`.card__repeat-days-inner`);
 
-for(let i = 0; i < CARD_REPEAT_DAY; i++) {
-  render(taskEditDays, addRepeatDay(), `beforeend`);
+for(let i = 0; i < REPEAT_DAY_VALUE.length; i++) {
+  render(taskEditDays, addRepeatDay(i), `beforeend`);
 };
