@@ -3,7 +3,7 @@ export const filterObj = {
   text: [`All`, `Overdue`, `Today`, `Favorites`, `Repeating`, `Archive`],
   class: [`filter__all-count`, `filter__overdue-count`, `filter__today-count`, `filter__favorites-count`, `filter__repeating-count`, `filter__archive-count`]
 };
-  
+
 export const filterItem = (i) => {
   return (
     `<input

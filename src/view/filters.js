@@ -3,4 +3,3 @@ export const addFilers = () => {
     `<section class="main__filter filter container"></section>`
   );
 };
-  
