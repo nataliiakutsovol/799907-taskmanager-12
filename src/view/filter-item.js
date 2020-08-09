@@ -1,17 +1,21 @@
-export const filterObj = {
-  id: [`filter__all`, `filter__overdue`, `filter__today`, `filter__favorites`, `filter__repeating`, `filter__archive`],
-  text: [`All`, `Overdue`, `Today`, `Favorites`, `Repeating`, `Archive`],
-  class: [`filter__all-count`, `filter__overdue-count`, `filter__today-count`, `filter__favorites-count`, `filter__repeating-count`, `filter__archive-count`]
-};
-
-export const filterItem = (i) => {
+const filterItem = (filter, isChecked) => {
+  const {name, count} = filter;
   return (
     `<input
       type="radio"
-      id="${filterObj.id[i]}"
+      id="${name}"
       class="filter__input visually-hidden"
       name="filter"
-      checked/>
-    <label for="${filterObj.id[i]}" class="filter__label">${filterObj.text[i]}<span class="${filterObj.class[i]}"> 13</span></label>`
+      ${isChecked ? `checked` : ``}
+      ${count === 0 ? `disabled` : ``}/>
+    <label for="${name}" class="filter__label">${name}<span class="filter__${name}-count">${count}</span></label>`
   );
+};
+
+export const createFilterTemplate = (filterItems) => {
+  const filterItemTemplate = filterItems.map((filter, index) => filterItem(filter, index === 0)).join(``);
+
+  return `<section class="main__filter filter container">
+    ${filterItemTemplate}
+  </section>`;
 };
