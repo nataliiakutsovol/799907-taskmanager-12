@@ -1,6 +1,68 @@
-export const addEditTaskCard = () => {
+import {isExpired, isRepeating} from "../utils.js";
+import {COLORS} from "../const.js";
+
+const createTaskEditRepeatingTemplate = (repeating) => {
   return (
-    `<article class="card card--edit card--yellow card--repeat">
+    `<fieldset class="card__repeat-days">
+    <div class="card__repeat-days-inner">
+    ${Object.entries(repeating).map(([day, repeat]) =>
+      `<input
+        class="visually-hidden card__repeat-day-input"
+        type="checkbox"
+        id="repeat-${day}"
+        name="repeat"
+        value="${day}"
+        ${repeat ? `checked` : ``}
+      />
+      <label class="card__repeat-day" for="repeat-${day}">${day}</label>`).join(``)}
+    </div>
+  </fieldset>`
+  );
+};
+
+const createTaskEditColorTemplate = (currentColor) => {
+  return COLORS.map((color) =>
+    `<input
+      type="radio"
+      id="color-${color}-4"
+      class="card__color-input card__color-input--${color} visually-hidden"
+      name="color"
+      value="${color}"
+      ${currentColor === color ? `checked` : ``}
+    />
+    <label
+      for="color-${color}-4"
+      class="card__color card__color--${color}">${color}
+    </label>`).join(``);
+};
+
+export const addEditTaskCard = (task = {}) => {
+  const {
+    color = ``,
+    description = ``,
+    deadline = null,
+    repeating = {
+      mo: false,
+      tu: false,
+      we: false,
+      th: false,
+      fr: false,
+      sa: false,
+      su: false
+    }
+  } = task;
+  const date = deadline !== null
+    ? deadline.toLocaleString(`en-US`, {day: `numeric`, month: `long`})
+    : ``;
+  const deadlineClass = isExpired(deadline)
+    ? `card--deadline`
+    : ``;
+  const repeatingTemplate = createTaskEditRepeatingTemplate(repeating);
+  const repeatingClass = isRepeating(repeating) ? `card--repeat` : ``;
+
+  const colorTemplate = createTaskEditColorTemplate(color);
+  return (
+    `<article class="card card--edit card--${color} ${deadlineClass} ${repeatingClass}">
       <form class="card__form" method="get">
         <div class="card__inner">
           <div class="card__color-bar">
@@ -15,7 +77,7 @@ export const addEditTaskCard = () => {
                 class="card__text"
                 placeholder="Start typing your text here..."
                 name="text"
-              >Here is a card with filled data</textarea>
+              >${description}</textarea>
             </label>
           </div>
   
@@ -23,7 +85,7 @@ export const addEditTaskCard = () => {
             <div class="card__details">
               <div class="card__dates">
                 <button class="card__date-deadline-toggle" type="button">
-                  date: <span class="card__date-status">yes</span>
+                  date: <span class="card__date-status">${deadline !== null ? `yes` : `no`}</span>
                 </button>
   
                 <fieldset class="card__date-deadline">
@@ -33,83 +95,22 @@ export const addEditTaskCard = () => {
                       type="text"
                       placeholder=""
                       name="date"
-                      value="23 September 16:15"
+                      value="${date}"
                     />
                   </label>
                 </fieldset>
   
                 <button class="card__repeat-toggle" type="button">
-                  repeat:<span class="card__repeat-status">yes</span>
-                </button>
-  
-                <fieldset class="card__repeat-days">
-                  <div class="card__repeat-days-inner">
-                    
-                  </div>
-                </fieldset>
+                  repeat:<span class="card__repeat-status">${isRepeating(repeating) ? `yes` : `no`}</span>
+                </button> 
+                ${repeatingTemplate}
               </div>
             </div>
   
             <div class="card__colors-inner">
               <h3 class="card__colors-title">Color</h3>
               <div class="card__colors-wrap">
-                <input
-                  type="radio"
-                  id="color-black-4"
-                  class="card__color-input card__color-input--black visually-hidden"
-                  name="color"
-                  value="black"
-                />
-                <label
-                  for="color-black-4"
-                  class="card__color card__color--black"
-                  >black</label
-                >
-                <input
-                  type="radio"
-                  id="color-yellow-4"
-                  class="card__color-input card__color-input--yellow visually-hidden"
-                  name="color"
-                  value="yellow"
-                  checked
-                />
-                <label
-                  for="color-yellow-4"
-                  class="card__color card__color--yellow"
-                  >yellow</label
-                >
-                <input
-                  type="radio"
-                  id="color-blue-4"
-                  class="card__color-input card__color-input--blue visually-hidden"
-                  name="color"
-                  value="blue"
-                />
-                <label
-                  for="color-blue-4"
-                  class="card__color card__color--blue"
-                  >blue</label
-                >
-                <input
-                  type="radio"
-                  id="color-green-4"
-                  class="card__color-input card__color-input--green visually-hidden"
-                  name="color"
-                  value="green"
-                />
-                <label
-                  for="color-green-4"
-                  class="card__color card__color--green"
-                  >green</label
-                >
-                <input
-                  type="radio"
-                  id="color-pink-4"
-                  class="card__color-input card__color-input--pink visually-hidden"
-                  name="color"
-                  value="pink"
-                />
-                <label for="color-pink-4" class="card__color card__color--pink">pink</label>
+              ${colorTemplate}
               </div>
             </div>
           </div>

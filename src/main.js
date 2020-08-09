@@ -1,14 +1,16 @@
 import {addMenuContainer} from './view/menu.js';
 import {addSorting} from './view/sorting.js';
-import {addFilers} from './view/filters.js';
-import {filterObj, filterItem} from './view/filter-item.js';
+import {createFilterTemplate} from './view/filter-item.js';
 import {addTaskCard} from './view/task.js';
-import {addDeadlineTaskCard} from './view/deadline-task.js';
 import {addEditTaskCard} from './view/edit-task.js';
-import {REPEAT_DAY_VALUE, addRepeatDay} from './view/repeat-day.js';
 import {addLoadingBtn} from './view/loading-btn.js';
+import {generateTask} from './mock/task.js';
+import {generateFilter} from "./mock/filters.js";
 
-const TASK_COUNT = 3;
+const TASK_COUNT = 15;
+const TASK_COUNT_PER_STEP = 8;
+const task = new Array(TASK_COUNT).fill().map(generateTask);
+const filters = generateFilter(task);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -20,13 +22,7 @@ const headerContainer = mainContainer.querySelector(`.main__control`);
 
 render(headerContainer, addMenuContainer(), `beforeend`);
 
-render(mainContainer, addFilers(), `beforeend`);
-
-const filterItemContainer = mainContainer.querySelector(`.main__filter`);
-
-for (let i = 0; i < filterObj.id.length; i++) {
-  render(filterItemContainer, filterItem(i), `beforeend`);
-}
+render(mainContainer, createFilterTemplate(filters), `beforeend`);
 
 render(mainContainer, addSorting(), `beforeend`);
 
@@ -34,18 +30,27 @@ const boardMainContainer = mainContainer.querySelector(`.board`);
 
 const taskListContainer = boardMainContainer.querySelector(`.board__tasks`);
 
-for (let i = 0; i < TASK_COUNT; i++) {
-  render(taskListContainer, addTaskCard(i), `beforeend`);
+for (let i = 0; i < Math.min(task.length, TASK_COUNT_PER_STEP); i++) {
+  render(taskListContainer, addTaskCard(task[i]), `beforeend`);
 }
 
-render(taskListContainer, addDeadlineTaskCard(), `beforeend`);
+render(taskListContainer, addEditTaskCard(task[0]), `beforeend`);
 
-render(taskListContainer, addEditTaskCard(), `beforeend`);
+if (task.length > TASK_COUNT_PER_STEP) {
+  let renderedTaskCount = TASK_COUNT_PER_STEP;
+  render(taskListContainer, addLoadingBtn(), `beforeend`);
 
-render(taskListContainer, addLoadingBtn(), `beforeend`);
+  const loadMoreButton = taskListContainer.querySelector(`.load-more`);
 
-const taskEditDays = boardMainContainer.querySelector(`.card__repeat-days-inner`);
+  loadMoreButton.addEventListener(`click`, (evt) => {
+    evt.preventDefault();
+    task.slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
+      render(taskListContainer, addTaskCard(task), `beforeend`);
+    });
 
-for (let i = 0; i < REPEAT_DAY_VALUE.length; i++) {
-  render(taskEditDays, addRepeatDay(i), `beforeend`);
+    renderedTaskCount += TASK_COUNT_PER_STEP;
+    if (renderedTaskCount >= task.length) {
+      loadMoreButton.remove();
+    }
+  });
 }
