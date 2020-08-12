@@ -1,5 +1,5 @@
 import {isExpired, isRepeating} from "../utils.js";
-import {COLORS} from "../const.js";
+import {COLORS, TASK_REPEATING} from "../const.js";
 
 const createTaskEditRepeatingTemplate = (repeating) => {
   return (
@@ -41,15 +41,7 @@ export const addEditTaskCard = (task = {}) => {
     color = ``,
     description = ``,
     deadline = null,
-    repeating = {
-      mo: false,
-      tu: false,
-      we: false,
-      th: false,
-      fr: false,
-      sa: false,
-      su: false
-    }
+    repeating = TASK_REPEATING,
   } = task;
   const date = deadline !== null
     ? deadline.toLocaleString(`en-US`, {day: `numeric`, month: `long`})

@@ -10,10 +10,8 @@ const taskFilterMap = {
 };
 
 export const generateFilter = (task) => {
-  return Object.entries(taskFilterMap).map(([filterName, taskCount]) => {
-    return {
-      name: filterName,
-      count: taskCount(task),
-    };
-  });
+  return Object.entries(taskFilterMap).map(([filterName, taskCount]) => ({
+    name: filterName,
+    count: taskCount(task),
+  }));
 };

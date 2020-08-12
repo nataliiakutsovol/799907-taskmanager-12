@@ -6,9 +6,8 @@ import {addEditTaskCard} from './view/edit-task.js';
 import {addLoadingBtn} from './view/loading-btn.js';
 import {generateTask} from './mock/task.js';
 import {generateFilter} from "./mock/filters.js";
+import {TASK_COUNT, TASK_COUNT_PER_STEP} from "./const.js";
 
-const TASK_COUNT = 15;
-const TASK_COUNT_PER_STEP = 8;
 const task = new Array(TASK_COUNT).fill().map(generateTask);
 const filters = generateFilter(task);
 

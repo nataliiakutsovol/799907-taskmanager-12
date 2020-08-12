@@ -1,5 +1,5 @@
 import {getRandomInteger} from "../utils.js";
-import {COLORS} from "../const.js";
+import {COLORS, TASK_REPEATING} from "../const.js";
 
 const generateDesc = () => {
   const descriptions = [`1`, `2`, `3`];
@@ -9,9 +9,8 @@ const generateDesc = () => {
 };
 
 const generateDate = () => {
-  const isDate = Boolean(getRandomInteger(0, 1));
 
-  if (!isDate) {
+  if (!!(getRandomInteger(0, 1))) {
     return null;
   }
 
@@ -44,17 +43,7 @@ const generateColor = () => {
 
 export const generateTask = () => {
   const deadline = generateDate();
-  const repeating = deadline === null
-    ? generateRepeating() 
-    : {
-      mo: false,
-      tu: false,
-      we: false,
-      th: false,
-      fr: false,
-      sa: false,
-      su: false
-    };
+  const repeating = deadline === null ? generateRepeating() : TASK_REPEATING;
   return {
     color: generateColor(),
     description: generateDesc(),
