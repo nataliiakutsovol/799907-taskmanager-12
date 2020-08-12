@@ -12,7 +12,6 @@ export const isExpired = (deadline) => {
 
   let currentDate = new Date();
   currentDate.setHours(23, 59, 59, 999);
-  currentDate = new Date(currentDate);
 
   return currentDate.getTime() > deadline.getTime();
 };
@@ -24,7 +23,6 @@ export const isTaskExpiringToday = (deadline) => {
 
   let currentDate = new Date();
   currentDate.setHours(23, 59, 59, 999);
-  currentDate = new Date(currentDate);
 
   return currentDate.getTime() === deadline.getTime();
 };
