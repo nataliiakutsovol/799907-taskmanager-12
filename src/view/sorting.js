@@ -1,4 +1,6 @@
-export const addSorting = () => {
+import {createElement} from "../utils.js";
+
+const addSorting = () => {
   return (
     `<section class="board container">
       <div class="board__filter-list">
@@ -10,3 +12,25 @@ export const addSorting = () => {
     </section>`
   );
 };
+
+export default class Sorting {
+  constructor() {
+    this._element = null;
+  }
+
+  _getTemplate() {
+    return addSorting();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

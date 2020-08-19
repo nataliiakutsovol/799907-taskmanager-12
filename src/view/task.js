@@ -1,4 +1,4 @@
-import {isExpired, isRepeating} from "../utils.js";
+import {isExpired, isRepeating, createElement} from "../utils.js";
 
 export const addTaskCard = (task) => {
   const {color, description, deadline, repeating, isArchive, isFavorite} = task;
@@ -43,3 +43,26 @@ export const addTaskCard = (task) => {
     </article>`
   );
 };
+
+export default class TaskCard {
+  constructor(task) {
+    this._element = null;
+    this._task = task;
+  }
+
+  _getTemplate() {
+    return addTaskCard(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate(this._task));
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
