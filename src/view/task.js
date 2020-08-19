@@ -48,21 +48,21 @@ export default class TaskCard {
   constructor(task) {
     this._element = null;
     this._task = task;
-  };
+  }
 
   _getTemplate() {
     return addTaskCard(this._task);
-  };
+  }
 
   getElement() {
-    if(!this._element) {
-      this._element = createElement(this._getTemplate(this._task))
+    if (!this._element) {
+      this._element = createElement(this._getTemplate(this._task));
     }
 
     return this._element;
-  };
+  }
 
   removeElement() {
     this._element = null;
-  };
+  }
 }

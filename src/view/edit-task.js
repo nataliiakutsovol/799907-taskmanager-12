@@ -37,7 +37,7 @@ const createTaskEditColorTemplate = (currentColor) => {
 };
 
 const addEditTaskCard = (task) => {
-  const { color, description, deadline, repeating} = task;
+  const {color, description, deadline, repeating} = task;
   const date = deadline !== null
     ? deadline.toLocaleString(`en-US`, {day: `numeric`, month: `long`})
     : ``;
@@ -116,21 +116,21 @@ export default class EditTask {
   constructor(task) {
     this._element = null;
     this._task = task || BLANK_TASK;
-  };
+  }
 
   _getTemplate() {
     return addEditTaskCard(this._task);
-  };
+  }
 
   getElement() {
-    if(!this._element) {
-      this._element = createElement(this._getTemplate(this._task))
+    if (!this._element) {
+      this._element = createElement(this._getTemplate(this._task));
     }
 
     return this._element;
-  };
+  }
 
   removeElement() {
     this._element = null;
-  };
+  }
 }

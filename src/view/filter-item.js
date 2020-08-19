@@ -1,4 +1,4 @@
-import { createElement } from "../utils";
+import {createElement} from "../utils";
 
 const filterItem = (filter, isChecked) => {
   const {name, count} = filter;
@@ -26,14 +26,14 @@ export default class FilterItem {
   constructor(filters) {
     this._element = null;
     this._filters = filters;
-  };
+  }
 
   _getTemplate() {
     return createFilterTemplate(this._filters);
-  };
+  }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this._getTemplate(this._filters));
     }
 

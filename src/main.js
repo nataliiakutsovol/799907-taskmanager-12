@@ -9,7 +9,7 @@ import {generateTask} from './mock/task.js';
 import {generateFilter} from "./mock/filters.js";
 // helpers
 import {TASK_COUNT, TASK_COUNT_PER_STEP} from "./const.js";
-import {renderTemplate, renderElement, renderPosition} from './utils';
+import {renderElement, renderPosition} from './utils';
 
 const task = new Array(TASK_COUNT).fill().map(generateTask);
 const filters = generateFilter(task);
@@ -53,14 +53,12 @@ const renderTask = (taskListContainer, task) => {
 };
 
 for (let i = 0; i < Math.min(task.length, TASK_COUNT_PER_STEP); i++) {
-  renderTask(taskListContainer, task[i])
+  renderTask(taskListContainer, task[i]);
 }
-
-//renderElement(taskListContainer, new EditTask(task[0]).getElement(), renderPosition.BEFOREEND);
 
 if (task.length > TASK_COUNT_PER_STEP) {
   let renderedTaskCount = TASK_COUNT_PER_STEP;
-  renderElement(taskListContainer, new LoadBtn().getElement(),  renderPosition.BEFOREEND);
+  renderElement(taskListContainer, new LoadBtn().getElement(), renderPosition.BEFOREEND);
 
   const loadMoreButton = taskListContainer.querySelector(`.load-more`);
 

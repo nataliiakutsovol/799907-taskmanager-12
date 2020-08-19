@@ -16,21 +16,21 @@ const addSorting = () => {
 export default class Sorting {
   constructor() {
     this._element = null;
-  };
+  }
 
-  _getTemplate () {
+  _getTemplate() {
     return addSorting();
-  };
+  }
 
   getElement() {
-    if(!this._element) {
+    if (!this._element) {
       this._element = createElement(this._getTemplate());
     }
 
     return this._element;
-  };
+  }
 
   removeElement() {
     this._element = null;
-  };
-};
+  }
+}
