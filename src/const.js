@@ -10,3 +10,12 @@ export const TASK_REPEATING = {
   sa: false,
   su: false
 };
+
+export const BLANK_TASK = {
+  color: COLORS[0],
+  description: ``,
+  dueDate: null,
+  repeating: TASK_REPEATING,
+  isArchive: false,
+  isFavorite: false
+};
