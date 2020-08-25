@@ -14,22 +14,19 @@ const filterItem = (filter, isChecked) => {
   );
 };
 
-const createFilterTemplate = (filterItems) => {
-  const filterItemTemplate = filterItems.map((filter, index) => filterItem(filter, index === 0)).join(``);
-
-  return `<section class="main__filter filter container">
-    ${filterItemTemplate}
-  </section>`;
-};
-
 export default class FilterItem {
   constructor(filters) {
     this._element = null;
     this._filters = filters;
   }
 
-  _getTemplate() {
-    return createFilterTemplate(this._filters);
+  _getTemplate(filters) {
+
+    const filterItemTemplate = filters.map((filter, index) => filterItem(filter, index === 0)).join(``);
+
+    return `<section class="main__filter filter container">
+      ${filterItemTemplate}
+    </section>`;
   }
 
   getElement() {
