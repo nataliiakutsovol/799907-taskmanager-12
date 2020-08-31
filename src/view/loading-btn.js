@@ -1,8 +1,9 @@
-import {createElement} from "../utils.js";
+import Abstract from "../abstract.js";
 
-export default class LoadBtn {
+export default class LoadBtn extends Abstract {
   constructor() {
-    this._element = null;
+    super();
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   _getTemplate(text) {
@@ -12,15 +13,13 @@ export default class LoadBtn {
     );
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.onClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setClickHandler(callback) {
+    this._callback.onClick = callback;
+    this.getElement().addEventListener(`click`, this._clickHandler);
   }
 }

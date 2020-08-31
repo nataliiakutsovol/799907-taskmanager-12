@@ -1,4 +1,4 @@
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger} from "../utils/common.js";
 import {COLORS, TASK_REPEATING} from "../const.js";
 
 const generateDesc = () => {

@@ -1,4 +1,5 @@
-import {createElement} from "../utils";
+import {createElement} from "./../utils/render.js"
+import Abstract from "../abstract.js";
 
 const filterItem = (filter, isChecked) => {
   const {name, count} = filter;
@@ -14,9 +15,9 @@ const filterItem = (filter, isChecked) => {
   );
 };
 
-export default class FilterItem {
+export default class FilterItem extends Abstract {
   constructor(filters) {
-    this._element = null;
+    super();
     this._filters = filters;
   }
 
@@ -37,7 +38,4 @@ export default class FilterItem {
     return this._element;
   }
 
-  removeElement() {
-    this._element = null;
-  }
 }

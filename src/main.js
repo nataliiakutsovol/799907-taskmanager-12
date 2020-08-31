@@ -9,7 +9,10 @@ import {generateTask} from './mock/task.js';
 import {generateFilter} from "./mock/filters.js";
 // helpers
 import {TASK_COUNT, TASK_COUNT_PER_STEP} from "./const.js";
-import {renderElement, renderPosition} from './utils';
+import {renderElement, renderPosition, replace, remove} from './utils/render';
+import Board from "./presenter/task-board.js";
+
+
 
 const task = new Array(TASK_COUNT).fill().map(generateTask);
 const filters = generateFilter(task);
@@ -18,11 +21,13 @@ const mainContainer = document.querySelector(`.main`);
 
 const headerContainer = mainContainer.querySelector(`.main__control`);
 
-renderElement(headerContainer, new MenuContainer().getElement(), renderPosition.BEFOREEND);
+//renderElement(headerContainer, new MenuContainer(), renderPosition.BEFOREEND);
 
-renderElement(mainContainer, new FilterItem(filters).getElement(), renderPosition.BEFOREEND);
+renderElement(mainContainer, new FilterItem(filters), renderPosition.BEFOREEND);
 
-renderElement(mainContainer, new Sorting().getElement(), renderPosition.BEFOREEND);
+//renderElement(mainContainer, new Sorting(), renderPosition.BEFOREEND);
+const boardPresenter = new Board(mainContainer, headerContainer);
+boardPresenter.init();
 
 const boardMainContainer = mainContainer.querySelector(`.board`);
 
@@ -33,23 +38,22 @@ const renderTask = (taskListContainer, task) => {
   const taskEditElement = new EditTask(task);
 
   const replaceTaskToEdit = () => {
-    taskListContainer.replaceChild(taskEditElement.getElement(), taskElement.getElement());
+    replace(taskEditElement, taskElement);
   };
 
   const replaceEditToTask = () => {
-    taskListContainer.replaceChild(taskElement.getElement(), taskEditElement.getElement());
+    replace(taskElement, taskEditElement);
   };
 
-  taskElement.getElement().querySelector(`.card__btn--edit`).addEventListener(`click`, () => {
+  taskElement.setEditClickHandler(() => {
     replaceTaskToEdit();
   });
 
-  taskEditElement.getElement().querySelector(`form`).addEventListener(`submit`, (evt) => {
-    evt.preventDefault();
+  taskEditElement.setSubmitClickHandler(() => {
     replaceEditToTask();
   });
 
-  renderElement(taskListContainer, taskElement.getElement(), renderPosition.BEFOREEND);
+  renderElement(taskListContainer, taskElement, renderPosition.BEFOREEND);
 };
 
 for (let i = 0; i < Math.min(task.length, TASK_COUNT_PER_STEP); i++) {
@@ -58,12 +62,11 @@ for (let i = 0; i < Math.min(task.length, TASK_COUNT_PER_STEP); i++) {
 
 if (task.length > TASK_COUNT_PER_STEP) {
   let renderedTaskCount = TASK_COUNT_PER_STEP;
-  renderElement(taskListContainer, new LoadBtn().getElement(), renderPosition.BEFOREEND);
+  renderElement(taskListContainer, new LoadBtn(), renderPosition.BEFOREEND);
 
   const loadMoreButton = taskListContainer.querySelector(`.load-more`);
 
-  loadMoreButton.addEventListener(`click`, (evt) => {
-    evt.preventDefault();
+  loadMoreButton.setClickHandler(() => {
     task.slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
       renderTask(taskListContainer, task);
     });
@@ -74,3 +77,4 @@ if (task.length > TASK_COUNT_PER_STEP) {
     }
   });
 }
+

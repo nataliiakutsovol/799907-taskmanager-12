@@ -1,5 +1,7 @@
-import {isExpired, isRepeating, createElement} from "../utils.js";
+import {isExpired, isRepeating} from "../utils/task.js";
 import {COLORS, BLANK_TASK} from "../const.js";
+import Abstract from "../abstract.js";
+
 
 const createTaskEditRepeatingTemplate = (repeating) => {
   return (
@@ -112,25 +114,24 @@ const addEditTaskCard = (task) => {
   );
 };
 
-export default class EditTask {
+export default class EditTask extends Abstract {
   constructor(task) {
-    this._element = null;
+    super();
     this._task = task || BLANK_TASK;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   _getTemplate() {
     return addEditTaskCard(this._task);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate(this._task));
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.onSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setSubmitClickHandler(callback) {
+    this._callback.onSubmit = callback;
+    this.getElement().querySelector(`form`).addEventListener(`submit`, this._formSubmitHandler);
   }
 }
