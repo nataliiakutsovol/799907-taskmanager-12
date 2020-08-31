@@ -1,10 +1,6 @@
-import {createElement} from "../utils.js";
+import Abstract from "../abstract.js";
 
-export default class Sorting {
-  constructor() {
-    this._element = null;
-  }
-
+export default class Sorting extends Abstract {
   _getTemplate() {
     return (
       `<section class="board container">
@@ -16,17 +12,5 @@ export default class Sorting {
         <div class="board__tasks"></div>
       </section>`
     );
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
