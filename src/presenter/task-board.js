@@ -13,23 +13,32 @@ export default class Board {
     this._mainContainer = mainContainer;
     this._headerContainer = headerContainer;
     this._menuComponent = new MenuContainer();
-    this._filterCoponent = new FilterItem();
     this._sortComponent = new Sorting();
-    this._taskListContainer = new TaskCard();
+    
     this._loadMoreButtonComponent = new LoadBtn();
   }
 
-  init() {
+  init(boardTasks) {
+    this._boardTasks = boardTasks.slice();
     renderElement(this._headerContainer, this._menuComponent, renderPosition.BEFOREEND);
+
+    this._renderBoard();
   }
 
   _renderSort() {
     renderElement(this._mainContainer, this._sortComponent, renderPosition.BEFOREEND);
   }
 
+  _renderFilters(filters) {
+    this._filterCoponent = new FilterItem(filters);
+    renderElement(this._mainContainer, this._filterCoponent, renderPosition.BEFOREEND);
+  }
+
   _renderTask(task) {
     const taskElement = new TaskCard(task);
     const taskEditElement = new EditTask(task);
+    const boardMainContainer = this._mainContainer.querySelector(`.board`);
+    const taskListContainer = boardMainContainer.querySelector(`.board__tasks`);
   
     const replaceTaskToEdit = () => {
       replace(taskEditElement, taskElement);
@@ -55,34 +64,39 @@ export default class Board {
       }
     };
 
-    renderElement(_taskListContainer, taskElement, renderPosition.BEFOREEND);
+    renderElement(taskListContainer, taskElement, renderPosition.BEFOREEND);
   }
 
-  _renderTasks() {
-    // Метод для рендеринга N-задач за раз
+  _renderTasks(from, to) {
+    this._boardTasks
+      .slice(from, to)
+      .forEach((boardTask) => this._renderTask(boardTask));
   }
 
   _renderLoadMoreButton() {
-    let renderedTaskCount = TASK_COUNT_PER_STEP;
+    const boardMainContainer = this._mainContainer.querySelector(`.board`);
+    const taskListContainer = boardMainContainer.querySelector(`.board__tasks`);
+    const loadMoreButton = taskListContainer.querySelector(`.load-more`);
 
-    const loadMoreButtonComponent = new LoadBtn();
+    if (this._boardTasks.length > TASK_COUNT_PER_STEP) {
+      let renderedTaskCount = TASK_COUNT_PER_STEP;
+      renderElement(taskListContainer, new LoadBtn(), renderPosition.BEFOREEND);
 
-    render(this._loadMoreButton, loadMoreButtonComponent, RenderPosition.BEFOREEND);
-
-    loadMoreButtonComponent.setClickHandler(() => {
-      this._boardTasks
-        .slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP)
-        .forEach((boardTask) => this._renderTask(boardTask));
-
-      renderedTaskCount += TASK_COUNT_PER_STEP;
-
-      if (renderedTaskCount >= this._boardTasks.length) {
-        remove(loadMoreButtonComponent);
-      }
-    });
+      loadMoreButton.setClickHandler(() => {
+        task.slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
+          renderTask(taskListContainer, task);
+        });
+    
+        renderedTaskCount += TASK_COUNT_PER_STEP;
+        if (renderedTaskCount >= this._boardTasks.length) {
+          loadMoreButton.remove();
+        }
+      });
+    }
   }
 
   _renderBoard() {
+
     this._renderSort();
 
     this._renderTasks(0, Math.min(this._boardTasks.length, TASK_COUNT_PER_STEP));
