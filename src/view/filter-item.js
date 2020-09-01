@@ -1,18 +1,18 @@
-import {createElement} from "./../utils/render.js"
 import Abstract from "../abstract.js";
 
-const filterItem = (filter, isChecked) => {
-  const {name, count} = filter;
-  return (
+const filterItem = (filters, isChecked) => {
+  return filters.map(() => 
     `<input
-      type="radio"
-      id="${name}"
-      class="filter__input visually-hidden"
-      name="filter"
-      ${isChecked ? `checked` : ``}
-      ${count === 0 ? `disabled` : ``}/>
-    <label for="${name}" class="filter__label">${name}<span class="filter__${name}-count">${count}</span></label>`
-  );
+    type="radio"
+    id="${this._filters.name}"
+    class="filter__input visually-hidden"
+    name="filter"
+    ${isChecked ? `checked` : ``}
+    ${this._filters.count === 0 ? `disabled` : ``}/>
+  <label for="${this._filters.name}" class="filter__label">${this._filters.name}<span class="filter__${this._filters.name}-count">${filter.count}</span></label>`
+  ).join(``)
+    
+
 };
 
 export default class FilterItem extends Abstract {
@@ -21,21 +21,11 @@ export default class FilterItem extends Abstract {
     this._filters = filters;
   }
 
-  _getTemplate(filters) {
-
-    const filterItemTemplate = filters.map((filter, index) => filterItem(filter, index === 0)).join(``);
+  _getTemplate() {
+    const filterItemTemplate = filterItem(this._filters);
 
     return `<section class="main__filter filter container">
       ${filterItemTemplate}
     </section>`;
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate(this._filters));
-    }
-
-    return this._element;
-  }
-
 }
