@@ -1,4 +1,4 @@
-import {createElement} from "./utils/render.js"
+import {createElement} from "./utils/render.js";
 
 export default class Abstract {
   constructor() {
@@ -13,15 +13,15 @@ export default class Abstract {
   _getTemplate() {
     throw new Error(`Abstract method not implemented: _getTemplate`);
   }
-    
+
   getElement() {
     if (!this._element) {
       this._element = createElement(this._getTemplate());
     }
-    
+
     return this._element;
   }
-    
+
   removeElement() {
     this._element = null;
   }
