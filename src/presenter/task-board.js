@@ -5,8 +5,8 @@ import TaskCard from './../view/task.js';
 import EditTask from './../view/edit-task.js';
 import LoadBtn from './../view/loading-btn.js';
 
-import {renderElement, renderPosition, replace, remove} from './../utils/render';
-import {TASK_COUNT, TASK_COUNT_PER_STEP} from "./../const.js";
+import {renderElement, renderPosition, replace} from './../utils/render';
+import {TASK_COUNT_PER_STEP} from "./../const.js";
 
 export default class Board {
   constructor(mainContainer, headerContainer) {
@@ -14,7 +14,7 @@ export default class Board {
     this._headerContainer = headerContainer;
     this._menuComponent = new MenuContainer();
     this._sortComponent = new Sorting();
-    
+
     this._loadMoreButtonComponent = new LoadBtn();
   }
 
@@ -39,27 +39,27 @@ export default class Board {
     const taskEditElement = new EditTask(task);
     const boardMainContainer = this._mainContainer.querySelector(`.board`);
     const taskListContainer = boardMainContainer.querySelector(`.board__tasks`);
-  
+
     const replaceTaskToEdit = () => {
       replace(taskEditElement, taskElement);
     };
-  
+
     const replaceEditToTask = () => {
       replace(taskElement, taskEditElement);
     };
-  
+
     taskElement.setEditClickHandler(() => {
       replaceTaskToEdit();
     });
-  
+
     taskEditElement.setSubmitClickHandler(() => {
       replaceEditToTask();
     });
-  
+
     const onEscKeyDown = (evt) => {
       if (evt.key === `Escape` || evt.key === `Esc`) {
         evt.preventDefault();
-        replaceFormToCard();
+        replaceEditToTask();
         document.removeEventListener(`keydown`, onEscKeyDown);
       }
     };
@@ -83,10 +83,10 @@ export default class Board {
       renderElement(taskListContainer, new LoadBtn(), renderPosition.BEFOREEND);
 
       loadMoreButton.setClickHandler(() => {
-        task.slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
-          renderTask(taskListContainer, task);
+        this._boardTasks.slice(renderedTaskCount, renderedTaskCount + TASK_COUNT_PER_STEP).forEach((task) => {
+          _renderTasks(taskListContainer, task);
         });
-    
+
         renderedTaskCount += TASK_COUNT_PER_STEP;
         if (renderedTaskCount >= this._boardTasks.length) {
           loadMoreButton.remove();
