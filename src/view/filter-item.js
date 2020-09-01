@@ -1,15 +1,15 @@
 import Abstract from "../abstract.js";
 
 const filterItem = (filters, isChecked) => {
-  return filters.map(() => 
+  return filters.map((filter) => 
     `<input
     type="radio"
-    id="${this._filters.name}"
+    id="${filter.name}"
     class="filter__input visually-hidden"
     name="filter"
     ${isChecked ? `checked` : ``}
-    ${this._filters.count === 0 ? `disabled` : ``}/>
-  <label for="${this._filters.name}" class="filter__label">${this._filters.name}<span class="filter__${this._filters.name}-count">${filter.count}</span></label>`
+    ${filter.count === 0 ? `disabled` : ``}/>
+  <label for="${filter.name}" class="filter__label">${filter.name}<span class="filter__${filter.name}-count">${filter.count}</span></label>`
   ).join(``)
     
 
